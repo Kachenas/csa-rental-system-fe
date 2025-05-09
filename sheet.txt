@@ -1,0 +1,21 @@
+display:
+    flex  -> the items on this container will take full width
+display: 
+    inline-flex -> items and width of the container will only take the width of the items
+
+flex-direction: 
+    row -> will align items in a row
+    column -> will align items in a column
+    row-reverse -> will align items in opposite direction
+    column-reverse -> will align items in opposite direction
+
+flex-wrap: nowrap -> this will make the items overflow and not stick to the container
+flex-wrap: wrap -> this will ajust the items of the container. Items will not overflow
+
+flex-flow -> combination of flex-direction and flex-wrap
+    column-reverse
+    wrap-reverse
+
+main-axis left to right
+cross-axis top to bottom
+

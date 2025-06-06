@@ -106,10 +106,16 @@
     console.log('User Info', JSON.stringify(user, null, 2))
   }
 
-  function saveDate (date: Date) {
+  function saveDate (date: Date | null) {
+    if (!date) {
+      selectedDate.value = null
+      displayDate.value = ''
+      return
+    }
+
     selectedDate.value = date
-    displayDate.value = new Date(date).toLocaleDateString() // Format for display
-    menu.value = false // Close the calendar after selecting
+    displayDate.value = date.toLocaleDateString()
+    menu.value = false
   }
 </script>
 

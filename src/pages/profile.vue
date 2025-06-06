@@ -11,7 +11,7 @@
           v-model="firstName"
           clearable
           label="First Name"
-          prepend-icon="$vuetify"
+          prepend-icon="mdi-account"
           required
           variant="solo-filled"
         />
@@ -21,7 +21,7 @@
           v-model="lastName"
           clearable
           label="Last Name"
-          prepend-icon="$vuetify"
+          prepend-icon="mdi-account"
           required
           variant="solo-filled"
         />
@@ -33,7 +33,7 @@
           v-model="email"
           clearable
           label="Email"
-          prepend-icon="$vuetify"
+          prepend-icon="mdi-account"
           required
           type="email"
           variant="solo-filled"
@@ -71,12 +71,13 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import type { User } from '@/types/userType'
 
   const firstName = ref<string>('');
   const lastName = ref<string>('');
   const email = ref<string>('');
-  const selectedDate = ref<Date>('');
-  const displayDate = ref<Date>('');
+  const selectedDate = ref<Date | null>(null)
+  const displayDate = ref<string>('');
   const menu = ref<boolean>(false)
 
   const colors = [
@@ -89,20 +90,32 @@
 
     menu.value = false;
 
-    const user = {
-      'firstName': firstName.value,
-      'lastName': lastName.value,
-      'email': email.value,
-      'birthdate': selectedDate.value,
+    const birthdate = selectedDate.value
+    if (!birthdate || isNaN(birthdate.getTime())) {
+      console.error('Invalid date selected');
+      return;
     }
+
+    const user: User = {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      email: email.value,
+      birthdate, // Already a Date object here
+    };
 
     console.log('User Info', JSON.stringify(user, null, 2))
   }
 
-  function saveDate (date: string) {
+  function saveDate (date: Date | null) {
+    if (!date) {
+      selectedDate.value = null
+      displayDate.value = ''
+      return
+    }
+
     selectedDate.value = date
-    displayDate.value = new Date(date).toLocaleDateString() // Format for display
-    menu.value = false // Close the calendar after selecting
+    displayDate.value = date.toLocaleDateString()
+    menu.value = false
   }
 </script>
 
